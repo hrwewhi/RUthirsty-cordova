@@ -1,0 +1,34 @@
+{
+  "name": "ruthirsty-dialer",
+  "displayName": "RUthirsty Dialer",
+  "version": "1.0.0",
+  "description": "手机拨号 Cordova 应用，支持联系人列表与拨号",
+  "main": "index.js",
+  "scripts": {
+    "start": "cordova run android",
+    "build": "cordova build android",
+    "build:release": "cordova build android --release"
+  },
+  "keywords": [
+    "cordova",
+    "dialer",
+    "contacts",
+    "harmonyos"
+  ],
+  "author": "RUthirsty Team",
+  "license": "MIT",
+  "devDependencies": {
+    "cordova": "^12.0.0"
+  },
+  "dependencies": {},
+  "cordova": {
+    "platforms": [
+      "android"
+    ],
+    "plugins": {
+      "cordova-plugin-contacts-x": {},
+      "cordova-plugin-device": {},
+      "cordova-plugin-statusbar": {}
+    }
+  }
+}

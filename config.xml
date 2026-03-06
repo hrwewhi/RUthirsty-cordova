@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.ruthirsty.dialer" version="1.0.0"
+  xmlns="http://www.w3.org/ns/widgets"
+  xmlns:cdv="http://cordova.apache.org/ns/1.0">
+
+  <name>RUthirsty Dialer</name>
+  <description>手机拨号应用，支持联系人列表与一键拨号</description>
+  <author email="dev@ruthirsty.com" href="https://ruthirsty.com">RUthirsty Team</author>
+
+  <content src="index.html" />
+
+  <access origin="*" />
+  <allow-intent href="tel:*" />
+  <allow-intent href="http://*/*" />
+  <allow-intent href="https://*/*" />
+
+  <preference name="DisallowOverscroll" value="true" />
+  <preference name="StatusBarOverlaysWebView" value="false" />
+  <preference name="StatusBarBackgroundColor" value="#1976D2" />
+  <preference name="StatusBarStyle" value="lightcontent" />
+  <preference name="android-minSdkVersion" value="22" />
+  <preference name="android-targetSdkVersion" value="33" />
+  <preference name="ScrollEnabled" value="false" />
+  <preference name="BackupWebStorage" value="none" />
+
+  <!-- 联系人读取权限 -->
+  <uses-permission android:name="android.permission.READ_CONTACTS" />
+  <!-- 拨号权限 -->
+  <uses-permission android:name="android.permission.CALL_PHONE" />
+
+  <platform name="android">
+    <allow-intent href="market:*" />
+    <!-- 适配 鸿蒙/HarmonyOS NEXT 兼容模式 -->
+    <preference name="GradlePluginKotlinEnabled" value="true" />
+    <preference name="GradlePluginKotlinVersion" value="1.7.21" />
+  </platform>
+
+  <plugin name="cordova-plugin-contacts-x" spec="^1.1.3" />
+  <plugin name="cordova-plugin-device" spec="^2.1.0" />
+  <plugin name="cordova-plugin-statusbar" spec="^3.0.0" />
+</widget>

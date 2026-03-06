@@ -1,3 +1,10 @@
 {
-	"image": "mcr.microsoft.com/devcontainers/universal:2"
+	"image": "mcr.microsoft.com/devcontainers/universal:2",
+	"forwardPorts": [8080],
+	"portsAttributes": {
+		"8080": {
+			"label": "live-server",
+			"onAutoForward": "openPreview"
+		}
+	}
 }
