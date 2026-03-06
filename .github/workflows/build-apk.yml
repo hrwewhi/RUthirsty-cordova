@@ -10,53 +10,43 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. 检出代码
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. 配置 JDK 17
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      # 3. 锁定 Gradle 8.9（避免系统 Gradle 9.x 与 cordova-android 不兼容）
       - name: Set up Gradle 8.9
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
 
-      # 4. 配置 Node.js 20
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      # 5. 安装 Android Build Tools 33.0.2（cordova-android@12 所需）
       - name: Install Android build tools
         run: echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "build-tools;33.0.2" "platforms;android-33"
 
-      # 6. 安装 Cordova CLI
       - name: Install Cordova CLI
         run: npm install -g cordova@12
 
-      # 6. 添加 Android 平台
       - name: Add Android platform
         run: cordova platform add android@12 --nofetch
 
-      # 7. 安装插件
       - name: Install Cordova plugins
         run: |
           cordova plugin add cordova-plugin-contacts-x@2.1.2
           cordova plugin add cordova-plugin-device
           cordova plugin add cordova-plugin-statusbar
 
-      # 8. 构建 Debug APK
       - name: Build Debug APK
         run: cordova build android
 
-      # 9. 上传 APK 为 Artifact
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
@@ -64,10 +54,7 @@ jobs:
           path: platforms/android/app/build/outputs/apk/debug/app-debug.apk
           retention-days: 30
 
-      # 10. 打印 APK 信息
       - name: Print APK info
         run: |
           APK=platforms/android/app/build/outputs/apk/debug/app-debug.apk
-          echo "✅ 构建成功"
-          echo "📦 APK: $APK"
-          echo "📏 大小: $(du -sh $APK | cut -f1)"
+          ls -lh $APK
