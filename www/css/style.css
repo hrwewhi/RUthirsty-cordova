@@ -1,758 +1,283 @@
 /* ============================
-   CSS 变量 — Aurora Glass 主题
+   老年人拨号 — 极简大字界面
    ============================ */
+
+/* 颜色变量 */
 :root {
-  --bg-deep: #070714;
-  --glass: rgba(255,255,255,0.07);
-  --glass-border: rgba(255,255,255,0.12);
-  --glass-hover: rgba(255,255,255,0.11);
-  --glass-active: rgba(255,255,255,0.17);
-
-  --violet: #8b5cf6;
-  --cyan: #22d3ee;
-  --green: #34d399;
-  --rose: #fb7185;
-  --amber: #fbbf24;
-
-  --text-primary: rgba(255,255,255,0.93);
-  --text-secondary: rgba(255,255,255,0.54);
-  --text-muted: rgba(255,255,255,0.32);
-  --divider: rgba(255,255,255,0.07);
-
-  --shadow-sm: 0 2px 12px rgba(0,0,0,0.45);
-  --shadow-md: 0 8px 32px rgba(0,0,0,0.5);
-  --shadow-lg: 0 24px 64px rgba(0,0,0,0.65);
-  --glow-green: 0 0 28px rgba(52,211,153,0.45);
-  --glow-violet: 0 0 32px rgba(139,92,246,0.35);
-
-  --radius: 14px;
-  --radius-sm: 10px;
-  --radius-xl: 24px;
-  --header-h: 60px;
-  --fab-size: 60px;
-  --transition: 0.2s cubic-bezier(0.4,0,0.2,1);
+  --bg: #F5F0E8;
+  --card-bg: #FFFFFF;
+  --text-dark: #1A1A2E;
+  --text-mid: #4A4A6A;
+  --text-light: #8888AA;
+  --green: #1B8F4E;
+  --green-light: #E8F7EF;
+  --green-btn: #22A85C;
+  --nav-bg: #E8E4DC;
+  --nav-active: #D0C8B8;
+  --shadow: 0 4px 20px rgba(0,0,0,0.12);
+  --shadow-btn: 0 6px 24px rgba(34,168,92,0.35);
+  --radius: 20px;
+  --radius-pill: 100px;
 }
 
-/* ============================
-   Reset & Base
-   ============================ */
+/* 重置 */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
   height: 100%;
-  font-family: "HarmonyOS Sans SC","PingFang SC",-apple-system,
-               "Noto Sans SC","Microsoft YaHei",sans-serif;
-  font-size: 16px;
-  color: var(--text-primary);
-  background: var(--bg-deep);
+  font-family: "HarmonyOS Sans SC", "PingFang SC", -apple-system,
+               "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text-dark);
   -webkit-font-smoothing: antialiased;
   overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-button { cursor: pointer; border: none; background: none; color: inherit; font-family: inherit; }
-ul, li { list-style: none; }
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
 .hidden { display: none !important; }
 
 /* ============================
-   Aurora Background Canvas
-   ============================ */
-.bg-canvas {
-  position: fixed; inset: 0;
-  background: radial-gradient(ellipse at 20% 10%, #0f0a24 0%, #070714 60%);
-  z-index: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(72px);
-  will-change: transform;
-  opacity: 0.75;
-}
-.orb-1 {
-  width: 440px; height: 440px;
-  background: radial-gradient(circle at center, rgba(139,92,246,0.75) 0%, transparent 70%);
-  top: -140px; left: -110px;
-  animation: drift1 30s ease-in-out infinite alternate;
-}
-.orb-2 {
-  width: 380px; height: 380px;
-  background: radial-gradient(circle at center, rgba(6,182,212,0.65) 0%, transparent 70%);
-  bottom: -90px; right: -90px;
-  animation: drift2 24s ease-in-out infinite alternate;
-}
-.orb-3 {
-  width: 300px; height: 300px;
-  background: radial-gradient(circle at center, rgba(217,70,239,0.55) 0%, transparent 70%);
-  top: 38%; left: 12%;
-  animation: drift3 38s ease-in-out infinite alternate;
-}
-
-@keyframes drift1 {
-  0%   { transform: translate(0,0) scale(1); }
-  50%  { transform: translate(44px,36px) scale(1.12); }
-  100% { transform: translate(-18px,52px) scale(0.94); }
-}
-@keyframes drift2 {
-  0%   { transform: translate(0,0) scale(1); }
-  50%  { transform: translate(-38px,-22px) scale(1.09); }
-  100% { transform: translate(24px,-44px) scale(1.02); }
-}
-@keyframes drift3 {
-  0%   { transform: translate(0,0) scale(1); }
-  33%  { transform: translate(28px,-34px) scale(0.9); }
-  66%  { transform: translate(-44px,18px) scale(1.08); }
-  100% { transform: translate(12px,28px) scale(0.97); }
-}
-
-/* ============================
-   Header
-   ============================ */
-.app-header {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: var(--header-h);
-  background: rgba(7,7,20,0.55);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  backdrop-filter: blur(24px) saturate(180%);
-  border-bottom: 1px solid var(--glass-border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  z-index: 100;
-}
-
-.app-title {
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: .2px;
-  background: linear-gradient(120deg, #fff 0%, var(--cyan) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.icon-btn {
-  width: 40px; height: 40px;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 50%;
-  color: var(--text-primary);
-  transition: background var(--transition);
-}
-.icon-btn:active { background: var(--glass-active); }
-.icon-btn svg { width: 22px; height: 22px; }
-
-/* ============================
-   Search Bar
-   ============================ */
-.search-bar {
-  position: fixed;
-  top: var(--header-h); left: 0; right: 0;
-  background: rgba(7,7,20,0.78);
-  -webkit-backdrop-filter: blur(32px) saturate(200%);
-  backdrop-filter: blur(32px) saturate(200%);
-  border-bottom: 1px solid var(--glass-border);
-  padding: 10px 16px 12px;
-  z-index: 99;
-  transition: transform var(--transition), opacity var(--transition);
-}
-
-.search-bar.collapsed {
-  transform: translateY(-100%);
-  opacity: 0;
-  pointer-events: none;
-}
-
-.search-input-wrap {
-  display: flex;
-  align-items: center;
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  border-radius: 24px;
-  padding: 0 14px;
-  gap: 10px;
-}
-
-.search-icon { width: 17px; height: 17px; color: var(--text-secondary); flex-shrink: 0; }
-
-#search-input {
-  flex: 1;
-  background: none; border: none; outline: none;
-  color: var(--text-primary);
-  font-size: 15px;
-  padding: 11px 0;
-  caret-color: var(--cyan);
-  font-family: inherit;
-}
-#search-input::placeholder { color: var(--text-muted); }
-
-.clear-btn {
-  color: var(--text-secondary);
-  font-size: 13px;
-  width: 22px; height: 22px;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 50%;
-  transition: background var(--transition), color var(--transition);
-}
-.clear-btn:active { background: var(--glass-active); color: var(--text-primary); }
-
-/* ============================
-   Main content
-   ============================ */
-.main-content {
-  position: fixed;
-  top: var(--header-h); bottom: 0; left: 0; right: 0;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  transition: top var(--transition);
-  z-index: 1;
-}
-
-.main-content.search-open {
-  top: calc(var(--header-h) + 54px);
-}
-
-.main-content::-webkit-scrollbar { width: 2px; }
-.main-content::-webkit-scrollbar-track { background: transparent; }
-.main-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.18); border-radius: 2px; }
-
-/* ============================
-   State views
+   加载 / 错误状态
    ============================ */
 .state-view {
+  position: fixed;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 65vh;
-  gap: 16px;
-  color: var(--text-secondary);
+  gap: 24px;
+  background: var(--bg);
+  font-size: 28px;
+  color: var(--text-mid);
+  z-index: 10;
 }
 
-.state-icon {
-  font-size: 60px;
-  filter: drop-shadow(0 4px 16px rgba(0,0,0,0.4));
-}
+.state-icon { font-size: 80px; }
 
 .spinner {
-  width: 42px; height: 42px;
-  border: 2px solid rgba(255,255,255,0.08);
-  border-top-color: var(--cyan);
+  width: 60px;
+  height: 60px;
+  border: 4px solid rgba(0,0,0,0.1);
+  border-top-color: var(--green);
   border-radius: 50%;
-  animation: spin 0.9s cubic-bezier(0.4,0,0.6,1) infinite;
-  box-shadow: 0 0 14px rgba(34,211,238,0.35);
+  animation: spin 0.9s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-.btn-primary {
-  background: linear-gradient(135deg, var(--violet), var(--cyan));
+.btn-retry {
+  margin-top: 12px;
+  padding: 18px 48px;
+  border-radius: var(--radius-pill);
+  background: var(--green-btn);
   color: #fff;
-  padding: 12px 32px;
-  border-radius: 24px;
-  font-size: 15px;
-  font-weight: 600;
-  box-shadow: var(--glow-violet);
-  transition: opacity var(--transition), transform var(--transition);
+  font-size: 26px;
+  font-weight: 700;
+  box-shadow: var(--shadow-btn);
+  transition: transform 0.15s, opacity 0.15s;
 }
-.btn-primary:active { opacity: 0.8; transform: scale(0.97); }
+.btn-retry:active { transform: scale(0.95); opacity: 0.85; }
 
 /* ============================
-   Contact count
+   主界面布局
    ============================ */
-.contact-count {
-  padding: 14px 20px 6px;
-  font-size: 11.5px;
-  color: var(--text-muted);
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-/* ============================
-   Alphabet nav
-   ============================ */
-.alpha-nav {
+.main-view {
   position: fixed;
-  right: 5px;
-  top: 50%;
-  transform: translateY(-50%);
+  inset: 0;
   display: flex;
   flex-direction: column;
-  z-index: 50;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid var(--glass-border);
-  border-radius: 12px;
-  padding: 4px 1px;
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
+  align-items: center;
+  justify-content: center;
+  padding: 28px 24px;
+  gap: 0;
+  background: var(--bg);
 }
-
-.alpha-nav a {
-  font-size: 10px;
-  color: var(--cyan);
-  font-weight: 700;
-  text-decoration: none;
-  padding: 2px 6px;
-  line-height: 1.5;
-  text-align: center;
-  border-radius: 8px;
-  transition: color var(--transition), background var(--transition);
-}
-.alpha-nav a:active { background: var(--glass-active); color: #fff; }
 
 /* ============================
-   Contact list
+   联系人姓名
    ============================ */
-.contact-list {
-  padding: 0 12px calc(var(--fab-size) + 36px);
-  display: flex;
-  flex-direction: column;
-}
-
-.contact-group-header {
-  padding: 14px 6px 6px;
-  font-size: 10.5px;
-  font-weight: 800;
-  color: var(--violet);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: linear-gradient(to bottom, rgba(7,7,20,0.92) 60%, transparent);
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-}
-
-.contact-item {
-  display: flex;
-  align-items: center;
-  padding: 11px 14px;
-  gap: 13px;
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-sm);
-  margin-bottom: 6px;
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
-  cursor: pointer;
-  transition: background var(--transition), border-color var(--transition), transform var(--transition);
-  position: relative;
-  overflow: hidden;
-}
-
-/* Inner top-left shimmer */
-.contact-item::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.055) 0%, transparent 55%);
-  pointer-events: none;
-  border-radius: inherit;
-}
-
-.contact-item:active {
-  background: var(--glass-hover);
-  border-color: rgba(255,255,255,0.2);
-  transform: scale(0.984);
-}
-
-/* Avatar */
-.contact-avatar {
-  width: 46px; height: 46px;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px;
-  font-weight: 700;
-  color: #fff;
-  flex-shrink: 0;
-  user-select: none;
-  position: relative;
-  box-shadow: 0 3px 14px rgba(0,0,0,0.35);
-}
-
-.contact-avatar::after {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(255,255,255,0.22);
-}
-
-/* Contact info */
-.contact-info { flex: 1; min-width: 0; }
-
+/* ============================
+   联系人姓名（可点击朗读）
+   ============================ */
 .contact-name {
-  font-size: 15px;
-  font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: var(--text-primary);
-}
-
-.contact-numbers {
-  margin-top: 3px;
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-
-.contact-number {
-  font-size: 12.5px;
-  color: var(--text-secondary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-variant-numeric: tabular-nums;
-}
-
-/* Call button on row */
-.call-btn {
-  width: 38px; height: 38px;
-  border-radius: 50%;
-  background: rgba(52,211,153,0.12);
-  border: 1px solid rgba(52,211,153,0.28);
-  color: var(--green);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
-}
-.call-btn:active {
-  background: rgba(52,211,153,0.3);
-  transform: scale(0.9);
-  box-shadow: var(--glow-green);
-}
-.call-btn svg { width: 17px; height: 17px; }
-
-/* ============================
-   Call confirm modal
-   ============================ */
-.modal-overlay {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.58);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 200;
-  animation: fadeIn .17s ease;
-}
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-.modal-card {
-  background: rgba(12,12,32,0.88);
-  -webkit-backdrop-filter: blur(40px) saturate(200%);
-  backdrop-filter: blur(40px) saturate(200%);
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: var(--radius-xl);
-  padding: 32px 24px 24px;
-  width: min(320px, 88vw);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  box-shadow: var(--shadow-lg), var(--glow-violet);
-  animation: slideUp .22s cubic-bezier(0.34,1.56,0.64,1);
-  position: relative;
-  overflow: hidden;
-}
-
-/* Top highlight line */
-.modal-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 50%;
-  transform: translateX(-50%);
-  width: 55%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent);
-}
-
-@keyframes slideUp {
-  from { transform: translateY(28px) scale(0.94); opacity: 0; }
-  to   { transform: translateY(0) scale(1);       opacity: 1; }
-}
-
-.modal-avatar {
-  width: 80px; height: 80px;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 32px;
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 4px;
-  box-shadow: 0 8px 28px rgba(0,0,0,0.45);
-  border: 2px solid rgba(255,255,255,0.2);
-}
-
-.modal-name {
-  font-size: 21px;
-  font-weight: 700;
+  font-size: 44px;
+  font-weight: 800;
+  color: var(--text-dark);
   text-align: center;
-  color: var(--text-primary);
+  letter-spacing: 4px;
+  margin-bottom: 32px;
+  line-height: 1.2;
+  min-height: 54px;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* 按钮重置 */
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 8px 16px;
+  border-radius: 12px;
+  transition: background 0.15s, transform 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.contact-name:active {
+  background: rgba(0,0,0,0.07);
+  transform: scale(0.97);
 }
 
-.modal-number {
-  font-size: 15px;
-  color: var(--text-secondary);
-  margin-bottom: 12px;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 1.5px;
-}
-
-.modal-actions {
+/* ============================
+   联系人头像按钮
+   ============================ */
+.avatar-btn {
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
   display: flex;
-  gap: 12px;
-  width: 100%;
-}
-
-.btn-cancel {
-  flex: 1;
-  padding: 13px;
-  border-radius: var(--radius);
-  background: rgba(255,255,255,0.07);
-  border: 1px solid var(--glass-border);
-  color: var(--text-secondary);
-  font-size: 15px;
-  font-weight: 500;
-  transition: background var(--transition), color var(--transition);
-}
-.btn-cancel:active { background: rgba(255,255,255,0.13); color: var(--text-primary); }
-
-.btn-call {
-  flex: 1;
-  padding: 13px;
-  border-radius: var(--radius);
-  background: linear-gradient(135deg, #059669 0%, #34d399 100%);
+  align-items: center;
+  justify-content: center;
+  font-size: 136px;
+  font-weight: 800;
   color: #fff;
-  font-size: 15px;
-  font-weight: 700;
-  display: flex; align-items: center; justify-content: center;
-  gap: 8px;
-  box-shadow: 0 4px 20px rgba(52,211,153,0.45);
-  transition: opacity var(--transition), transform var(--transition);
-}
-.btn-call:active { opacity: 0.82; transform: scale(0.97); }
-.btn-call svg { width: 17px; height: 17px; }
-
-/* ============================
-   FAB
-   ============================ */
-.fab {
-  position: fixed;
-  bottom: 28px; right: 22px;
-  width: var(--fab-size); height: var(--fab-size);
-  border-radius: 50%;
-  background: linear-gradient(135deg, #059669 0%, #34d399 100%);
-  color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 6px 24px rgba(52,211,153,0.5);
-  z-index: 150;
-  transition: transform var(--transition);
-}
-
-/* Pulse ring */
-.fab::before {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  border: 2px solid rgba(52,211,153,0.45);
-  animation: pulse-ring 2.6s cubic-bezier(0.4,0,0.6,1) infinite;
-}
-@keyframes pulse-ring {
-  0%,35% { opacity: 1; transform: scale(1); }
-  100%    { opacity: 0; transform: scale(1.5); }
-}
-
-.fab:active { transform: scale(0.91); }
-.fab svg { width: 26px; height: 26px; position: relative; z-index: 1; }
-
-/* ============================
-   Dialpad Panel
-   ============================ */
-.dialpad-overlay {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.52);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  display: flex; align-items: flex-end;
-  z-index: 200;
-}
-
-.dialpad-panel {
-  width: 100%;
-  background: rgba(10,10,28,0.9);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
-  backdrop-filter: blur(40px) saturate(180%);
-  border-top: 1px solid rgba(255,255,255,0.12);
-  border-radius: 24px 24px 0 0;
-  padding: 0 0 32px;
-  box-shadow: 0 -8px 48px rgba(0,0,0,0.55);
-  animation: slideUp .24s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 8px 36px rgba(0,0,0,0.18);
+  border: 6px solid #fff;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.15s, box-shadow 0.15s;
+  flex-shrink: 0;
+  margin-bottom: 36px;
   position: relative;
   overflow: hidden;
 }
 
-/* Drag handle */
-.dialpad-panel::before {
-  content: '';
-  display: block;
-  width: 36px; height: 4px;
-  background: rgba(255,255,255,0.18);
-  border-radius: 2px;
-  margin: 10px auto 0;
+/* 按下效果 */
+.avatar-btn:active {
+  transform: scale(0.93);
+  box-shadow: 0 4px 18px rgba(0,0,0,0.25);
 }
 
-/* Inner glow top edge */
-.dialpad-panel::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 10%; right: 10%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(139,92,246,0.5), rgba(34,211,238,0.5), transparent);
-}
-
-.dialpad-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  padding: 14px 0 6px;
-  font-weight: 600;
-  font-size: 13px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-
-.dialpad-close {
-  position: absolute;
-  left: 14px;
-  color: var(--text-secondary);
-  font-size: 18px;
-  width: 36px; height: 36px;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 50%;
-  transition: background var(--transition);
-}
-.dialpad-close:active { background: var(--glass-active); color: var(--text-primary); }
-
-.dialpad-display {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 68px;
-  padding: 4px 64px;
-  font-size: 34px;
-  font-weight: 200;
-  letter-spacing: 6px;
-  color: var(--text-primary);
-  position: relative;
-  font-variant-numeric: tabular-nums;
-}
-
-.backspace-btn {
-  position: absolute;
-  right: 14px;
-  font-size: 22px;
-  color: var(--text-secondary);
-  padding: 6px 10px;
-  border-radius: 10px;
-  transition: background var(--transition), color var(--transition);
-}
-.backspace-btn:active { background: var(--glass); color: var(--text-primary); }
-
-.dialpad-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  padding: 4px 18px 14px;
-}
-
-.dial-key {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 14px 0;
-  border-radius: var(--radius-sm);
-  gap: 2px;
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  transition: background var(--transition), border-color var(--transition), transform var(--transition);
-  position: relative;
-  overflow: hidden;
-}
-
-.dial-key::before {
-  content: '';
+/* 拨号图标覆盖层（头像按下时显示） */
+.avatar-btn::after {
+  content: '📞';
   position: absolute;
   inset: 0;
-  background: linear-gradient(150deg, rgba(255,255,255,0.05) 0%, transparent 50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 72px;
+  background: rgba(0,0,0,0.45);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+.avatar-btn:active::after {
+  opacity: 1;
+}
+
+/* ============================
+   电话号码按钮
+   ============================ */
+.phone-btn {
+  width: 100%;
+  max-width: 400px;
+  padding: 22px 32px;
+  border-radius: var(--radius-pill);
+  background: var(--green-btn);
+  color: #fff;
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  box-shadow: var(--shadow-btn);
+  transition: transform 0.15s, opacity 0.15s, box-shadow 0.15s;
+  margin-bottom: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.phone-btn::before {
+  content: '📱';
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.phone-btn:active {
+  transform: scale(0.96);
+  opacity: 0.88;
+  box-shadow: 0 3px 12px rgba(34,168,92,0.3);
+}
+
+/* ============================
+   上一个 / 下一个 导航
+   ============================ */
+.nav-row {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  max-width: 440px;
+  margin-bottom: 20px;
+}
+
+.nav-btn {
+  flex: 1;
+  padding: 22px 16px;
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: transform 0.15s, background 0.15s, box-shadow 0.15s;
+  border: 2px solid transparent;
+}
+
+.nav-btn:active {
+  transform: scale(0.94);
+  background: var(--nav-active);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.nav-btn:disabled {
+  opacity: 0.35;
   pointer-events: none;
 }
 
-.dial-key:active {
-  background: rgba(139,92,246,0.18);
-  border-color: rgba(139,92,246,0.38);
-  transform: scale(0.92);
-}
-
-.dial-key .digit {
-  font-size: 27px;
-  font-weight: 300;
-  color: var(--text-primary);
+.nav-arrow {
+  font-size: 28px;
+  color: var(--text-mid);
   line-height: 1;
-  font-variant-numeric: tabular-nums;
 }
-.dial-key .sub {
-  font-size: 8.5px;
+
+.nav-label {
+  font-size: 28px;
   font-weight: 700;
-  color: var(--text-muted);
-  letter-spacing: 1.5px;
-  min-height: 11px;
+  color: var(--text-dark);
 }
-
-.dialpad-actions {
-  display: flex;
-  justify-content: center;
-  padding: 4px 0 0;
-}
-
-.btn-dial-call {
-  width: 68px; height: 68px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #059669 0%, #34d399 100%);
-  color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 24px rgba(52,211,153,0.5);
-  transition: opacity var(--transition), transform var(--transition), box-shadow var(--transition);
-}
-.btn-dial-call:disabled {
-  background: rgba(255,255,255,0.07);
-  color: var(--text-muted);
-  box-shadow: none;
-}
-.btn-dial-call:not(:disabled):active {
-  opacity: 0.82;
-  transform: scale(0.9);
-  box-shadow: var(--glow-green);
-}
-.btn-dial-call svg { width: 28px; height: 28px; }
 
 /* ============================
-   Search highlight
+   序号提示
    ============================ */
-mark {
-  background: rgba(251,191,36,0.28);
-  color: var(--amber);
-  border-radius: 3px;
-  font-style: normal;
-  padding: 0 1px;
+.contact-index {
+  font-size: 22px;
+  color: var(--text-light);
+  font-weight: 500;
+  letter-spacing: 1px;
 }
