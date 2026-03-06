@@ -3,7 +3,7 @@ name: Build Android APK
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:          # 允许手动触发
+  workflow_dispatch:
 
 jobs:
   build:
@@ -31,27 +31,22 @@ jobs:
       - name: Install Cordova CLI
         run: npm install -g cordova@12
 
-      # 5. 安装项目依赖
-      - name: Install npm dependencies
-        run: npm install
-        working-directory: /home/runner/work/RUthirsty-cordova/RUthirsty-cordova
-
-      # 6. 添加 Android 平台
+      # 5. 添加 Android 平台（--nofetch 跳过自动插件恢复，避免版本冲突）
       - name: Add Android platform
-        run: cordova platform add android@12 --save
+        run: cordova platform add android@12 --nofetch
 
-      # 7. 安装插件
+      # 6. 安装插件（逐一安装，明确版本）
       - name: Install Cordova plugins
         run: |
-          cordova plugin add cordova-plugin-contacts-x --save || true
-          cordova plugin add cordova-plugin-device --save || true
-          cordova plugin add cordova-plugin-statusbar --save || true
+          cordova plugin add cordova-plugin-contacts-x@2.1.2
+          cordova plugin add cordova-plugin-device
+          cordova plugin add cordova-plugin-statusbar
 
-      # 8. 构建 Debug APK
+      # 7. 构建 Debug APK
       - name: Build Debug APK
         run: cordova build android
 
-      # 9. 上传 APK 为 Artifact（可直接下载）
+      # 8. 上传 APK 为 Artifact
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
@@ -59,10 +54,10 @@ jobs:
           path: platforms/android/app/build/outputs/apk/debug/app-debug.apk
           retention-days: 30
 
-      # 10. 打印 APK 信息
+      # 9. 打印 APK 路径与大小
       - name: Print APK info
         run: |
           APK=platforms/android/app/build/outputs/apk/debug/app-debug.apk
           echo "✅ 构建成功"
-          echo "📦 文件：$APK"
-          echo "📏 大小：$(du -sh $APK | cut -f1)"
+          echo "📦 APK: $APK"
+          echo "📏 大小: $(du -sh $APK | cut -f1)"
