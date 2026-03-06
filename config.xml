@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.ruthirsty.dialer" version="1.0.0"
   xmlns="http://www.w3.org/ns/widgets"
-  xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  xmlns:cdv="http://cordova.apache.org/ns/1.0"
+  xmlns:android="http://schemas.android.com/apk/res/android">
 
   <name>RUthirsty Dialer</name>
   <description>手机拨号应用，支持联系人列表与一键拨号</description>
