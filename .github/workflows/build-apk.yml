@@ -33,7 +33,11 @@ jobs:
         with:
           node-version: '20'
 
-      # 5. 安装 Cordova CLI
+      # 5. 安装 Android Build Tools 33.0.2（cordova-android@12 所需）
+      - name: Install Android build tools
+        run: echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "build-tools;33.0.2" "platforms;android-33"
+
+      # 6. 安装 Cordova CLI
       - name: Install Cordova CLI
         run: npm install -g cordova@12
 
