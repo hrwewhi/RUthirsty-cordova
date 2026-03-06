@@ -3,12 +3,8 @@ set -e
 #!/bin/bash
 
 # 设置环境变量-2月28日解决方案部使用，勿动
-export ANTHROPIC_AUTH_TOKEN=sk-JldZeWcje70gnOXUmFjjGFVza7sAV4jn8On5C2C5fKPGkcyT
-export ANTHROPIC_BASE_URL=https://apiHK.Ai
-#export CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1
-# 备选API线路（去掉下面两行注释生效）
-# export ANTHROPIC_AUTH_TOKEN=sk-BnACKGNS5fruSd9Mmm2cH4MuLXGR27sB0md9KsYN6fvR4CYi
-# export ANTHROPIC_BASE_URL=https://xinghuapi.com
+export ANTHROPIC_AUTH_TOKEN=sk-Xu6jxXEj15rI6Q1iFKBwpGNIpzkHayYxJYVwMAptVGviLCup
+export ANTHROPIC_BASE_URL=https://cc1.zhihuiapi.top
 
 first_run=false
 # 检查claude是否已安装
