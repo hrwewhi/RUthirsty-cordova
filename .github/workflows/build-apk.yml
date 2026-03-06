@@ -21,32 +21,38 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # 3. 配置 Node.js 20
+      # 3. 锁定 Gradle 8.9（避免系统 Gradle 9.x 与 cordova-android 不兼容）
+      - name: Set up Gradle 8.9
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+
+      # 4. 配置 Node.js 20
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      # 4. 安装 Cordova CLI
+      # 5. 安装 Cordova CLI
       - name: Install Cordova CLI
         run: npm install -g cordova@12
 
-      # 5. 添加 Android 平台（--nofetch 跳过自动插件恢复，避免版本冲突）
+      # 6. 添加 Android 平台
       - name: Add Android platform
         run: cordova platform add android@12 --nofetch
 
-      # 6. 安装插件（逐一安装，明确版本）
+      # 7. 安装插件
       - name: Install Cordova plugins
         run: |
           cordova plugin add cordova-plugin-contacts-x@2.1.2
           cordova plugin add cordova-plugin-device
           cordova plugin add cordova-plugin-statusbar
 
-      # 7. 构建 Debug APK
+      # 8. 构建 Debug APK
       - name: Build Debug APK
         run: cordova build android
 
-      # 8. 上传 APK 为 Artifact
+      # 9. 上传 APK 为 Artifact
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
@@ -54,7 +60,7 @@ jobs:
           path: platforms/android/app/build/outputs/apk/debug/app-debug.apk
           retention-days: 30
 
-      # 9. 打印 APK 路径与大小
+      # 10. 打印 APK 信息
       - name: Print APK info
         run: |
           APK=platforms/android/app/build/outputs/apk/debug/app-debug.apk
